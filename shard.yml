@@ -1,0 +1,24 @@
+name: flowsk
+version: 0.1.0
+
+authors:
+  - Celso Fernandes <celso.fernandes@gmail.com>
+
+targets:
+  flowsk:
+    main: src/flowsk.cr
+
+crystal: 0.29.0
+
+dependencies:
+  lucky:
+    github: luckyframework/lucky
+    version: ~> 0.15.0
+  authentic:
+    github: luckyframework/authentic
+    version: ~> 0.3.0
+  carbon:
+    github: luckyframework/carbon
+    version: ~> 0.1.0
+  dotenv:
+    github: gdotdesign/cr-dotenv
