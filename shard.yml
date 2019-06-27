@@ -22,3 +22,5 @@ dependencies:
     version: ~> 0.1.0
   dotenv:
     github: gdotdesign/cr-dotenv
+  jwt:
+    github: crystal-community/jwt

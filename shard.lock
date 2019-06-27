@@ -48,6 +48,10 @@ shards:
     github: luckyframework/habitat
     version: 0.4.3
 
+  jwt:
+    github: crystal-community/jwt
+    version: 1.1.0
+
   lucky:
     github: luckyframework/lucky
     version: 0.15.1
@@ -59,6 +63,10 @@ shards:
   lucky_router:
     github: luckyframework/lucky_router
     version: 0.2.2
+
+  openssl_ext:
+    github: stakach/openssl_ext
+    version: 1.0.0
 
   optarg:
     github: mosop/optarg

@@ -1,8 +1,10 @@
 require "./shards"
+require "./cuid"
 
 require "./models/base_model"
 require "./models/mixins/**"
 require "./models/**"
+require "./handlers/*"
 require "./queries/mixins/**"
 require "./queries/**"
 require "./forms/mixins/**"
