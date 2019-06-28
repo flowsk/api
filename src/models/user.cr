@@ -25,6 +25,14 @@ class User < BaseModel
     find_or_create_user_role(role: db_role)
   end
 
+  def remove_role(role : Symbol)
+    roles = UserRoleQuery.new.user_id(self.id).join_roles.roles { |user_role|
+      user_role.name(role.to_s)
+    }
+    remove_roles(roles)
+    true
+  end
+
   def add_role(role : Symbol, resource : Avram::Model)
     # Create Role
     db_role = RoleQuery.new.name(role.to_s).resource_type(resource.class.to_s).resource_id(resource.id).first?
@@ -33,12 +41,28 @@ class User < BaseModel
     find_or_create_user_role(role: db_role)
   end
 
+  def remove_role(role : Symbol, resource : Avram::Model)
+    roles = UserRoleQuery.new.user_id(self.id).join_roles.roles { |user_role|
+      user_role.name(role.to_s).resource_type(resource.class.to_s).resource_id(resource.id)
+    }
+    remove_roles(roles)
+    true
+  end
+
   def add_role(role : Symbol, resource : Avram::Model.class)
     # Create Role
-    db_role = RoleQuery.new.name(role.to_s).resource_type(resource.class.to_s).first?
-    db_role = RoleForm.create!(name: role.to_s, resource_type: resource.class.to_s) unless db_role
+    db_role = RoleQuery.new.name(role.to_s).resource_type(resource.to_s).first?
+    db_role = RoleForm.create!(name: role.to_s, resource_type: resource.to_s) unless db_role
 
     find_or_create_user_role(role: db_role)
+  end
+
+  def remove_role(role : Symbol, resource : Avram::Model.class)
+    roles = UserRoleQuery.new.user_id(self.id).join_roles.roles { |user_role|
+      user_role.name(role.to_s).resource_type(resource.to_s)
+    }
+    remove_roles(roles)
+    true
   end
 
   def has_role?(role : Symbol)
@@ -61,8 +85,17 @@ class User < BaseModel
     false
   end
 
+  def has_strict_role?(role : Symbol, resource : Avram::Model)
+    # Else check for instance
+    role = RoleQuery.new.name(role.to_s).resource_type(resource.class.to_s).resource_id(resource.id).first
+    check_user_role!(role: role)
+    true
+  rescue Avram::RecordNotFoundError
+    false
+  end
+
   def has_role?(role : Symbol, resource : Avram::Model.class)
-    role = RoleQuery.new.name(role.to_s).resource_type(resource.class.to_s).first
+    role = RoleQuery.new.name(role.to_s).resource_type(resource.to_s).resource_id.nilable_eq(nil).first
     check_user_role!(role: role)
     true
   rescue Avram::RecordNotFoundError
@@ -81,5 +114,17 @@ class User < BaseModel
     }.first
   rescue Avram::RecordNotFoundError
     UserRoleForm.create!(user_id: self.id, role_id: role.id)
+  end
+
+  private def remove_roles(roles : UserRoleQuery)
+    roles_ids = roles.map &.id
+    return true if roles_ids.empty?
+    roles_ids_sql = roles_ids.to_s.sub("[", "(").sub("]", ")")
+    sql = <<-SQL
+      DELETE FROM users_roles WHERE id = #{roles_ids_sql}
+    SQL
+    Avram::Repo.run do |db|
+      db.query_all sql, as: Role
+    end
   end
 end
