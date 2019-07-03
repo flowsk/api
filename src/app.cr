@@ -1,5 +1,6 @@
 require "./shards"
 require "./cuid"
+require "./timecop"
 
 require "./models/base_model"
 require "./models/mixins/**"
@@ -18,3 +19,6 @@ require "../config/env"
 require "../config/**"
 require "../db/migrations/**"
 require "./app_server"
+
+class UnauthorizedError < Exception
+end

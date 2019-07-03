@@ -38,6 +38,7 @@ class Api::V1::Tasks::CreateForm < Task::BaseForm
     else
       new_tasklist = TasklistForm.create!(user_id: current_user.id)
       tasklist_id.value = new_tasklist.id
+      current_user.add_role(:owner, new_tasklist)
     end
   end
 end

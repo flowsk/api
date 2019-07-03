@@ -16,7 +16,21 @@ private def execute_action(params, user : User)
   response = Api::V1::Tasks::Create.new(context, {} of String => String).call
 end
 
-describe "Api::V1::Tasks::Create" do
+describe Api::V1::Tasks::Create do
+  describe "security" do
+    it "add owner role to tasklist" do
+      post_params = params
+      user = UserBox.create
+
+      response = execute_action(post_params, user: user)
+
+      json = JSON.parse(response.body)
+      task_id = json["id"].as_s
+      tasklist = TaskQuery.new.cuid(task_id).preload_tasklist.first.tasklist
+      user.has_role?(:owner, tasklist).should be_truthy
+    end
+  end
+
   it "creates a record" do
     post_params = params
     user = UserBox.create
