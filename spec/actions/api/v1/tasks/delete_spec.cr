@@ -2,7 +2,7 @@ require "../../../../spec_helper"
 
 include ContextHelper
 
-private def execute_action(id, user : User)
+private def execute_action(id : String, user : User)
   context = delete(user: user, params: {} of String => String)
   response = Api::V1::Tasks::Delete.new(context, {"task_id" => id}).call
 end

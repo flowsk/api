@@ -22,7 +22,7 @@ describe Api::V1::Pomodoros::Create do
       task = Api::V1::Tasks::CreateForm.create!(current_user: user, title: "User First Task")
 
       guest = UserBox.create
-      post_params = params({"task_id" => task.id.to_s})
+      post_params = params({"task_id" => task.cuid})
 
       expect_raises(Avram::RecordNotFoundError, "Could not find first record in tasklists") do
         response = execute_action(post_params, user: guest)
@@ -33,7 +33,7 @@ describe Api::V1::Pomodoros::Create do
   it "creates a record" do
     user = UserBox.create
     task = Api::V1::Tasks::CreateForm.create!(current_user: user, title: "User First Task")
-    post_params = params({"task_id" => task.id.to_s})
+    post_params = params({"task_id" => task.cuid})
 
     response = execute_action(post_params, user: user)
 
@@ -47,7 +47,7 @@ describe Api::V1::Pomodoros::Create do
   it "do not accepts a status value" do
     user = UserBox.create
     task = Api::V1::Tasks::CreateForm.create!(current_user: user, title: "User First Task")
-    post_params = params({"status" => "finished", "task_id" => task.id.to_s})
+    post_params = params({"status" => "finished", "task_id" => task.cuid})
     post_params["pomodoro"].delete("id")
 
     response = execute_action(post_params, user: user)

@@ -2,7 +2,7 @@ require "../../../../spec_helper"
 
 include ContextHelper
 
-private def execute_action(id, user : User)
+private def execute_action(id : String, user : User)
   context = get(user: user, params: {} of String => String)
   response = Api::V1::Tasks::Show.new(context, {"task_id" => id.to_s}).call
 end

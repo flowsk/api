@@ -4,8 +4,8 @@ class Api::V1::SignUp::Create < ApiAction
   route do
     SignUpForm.create(params) do |form, user|
       if user
-        context.response.headers.add "Authorization", generate_token(user)
-        head 200
+        token = generate_token(user)
+        json ({"token" => token})
       else
         head 401
       end

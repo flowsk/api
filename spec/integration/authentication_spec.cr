@@ -13,9 +13,11 @@ describe AppServer do
       "sign_in:password" => "pass1234",
     }))
 
-    # check response has status: 200 and authorization header with "Bearer"
+    # check response has status: 200 and retuns the token
+    json = JSON.parse(visitor.response.body)
+    json["token"].should_not be_nil
     visitor.response.status_code.should eq 200
-    visitor.response.headers["Authorization"].should_not be_nil
+    # visitor.response.headers["Authorization"].should_not be_nil
   end
 
   it "creates user on sign up" do
@@ -27,7 +29,9 @@ describe AppServer do
     }))
 
     visitor.response.status_code.should eq 200
-    visitor.response.headers["Authorization"].should_not be_nil
+    json = JSON.parse(visitor.response.body)
+    json["token"].should_not be_nil
+    visitor.response.status_code.should eq 200
 
     UserQuery.new.email("test@email.com").first.should_not be_nil
   end

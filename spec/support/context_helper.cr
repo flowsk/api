@@ -7,21 +7,21 @@ module ContextHelper
 
   # My Methods
   private def delete(user : User, params = {} of String => String)
-    headers = build_headers({"Authorization" => generate_token(user)}, content_type: :json)
+    headers = build_headers({"Authorization" => "Token #{generate_token(user)}"}, content_type: :json)
     request = build_request method: "DELETE", body: params.to_json, headers: headers
 
     build_context(request: request)
   end
 
   private def get(user : User, params = {} of String => String)
-    headers = build_headers({"Authorization" => generate_token(user)}, content_type: :json)
+    headers = build_headers({"Authorization" => "Token #{generate_token(user)}"}, content_type: :json)
     request = build_request method: "GET", body: params.to_json, headers: headers
 
     build_context(request: request)
   end
 
   private def post(user : User, params = {} of String => String)
-    headers = build_headers({"Authorization" => generate_token(user)}, content_type: :json)
+    headers = build_headers({"Authorization" => "Token #{generate_token(user)}"}, content_type: :json)
     request = build_request method: "POST", body: params.to_json, headers: headers
 
     build_context(request: request)
@@ -61,7 +61,7 @@ module ContextHelper
   private def build_context(user : User, method = "GET", path = "/", request = nil) : HTTP::Server::Context
     headers = HTTP::Headers.new
     headers.add("Content-Type", "")
-    headers.add("Authorization", generate_token(user))
+    headers.add("Authorization", "Token #{generate_token(user)}")
 
     build_context_with_io(
       IO::Memory.new,

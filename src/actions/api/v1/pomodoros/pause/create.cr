@@ -1,7 +1,6 @@
 class Api::V1::Pomodoros::Pause::Create < Api::V1::AuthenticatedAction
   nested_route do
-    pomodoro_id = params.get("pomodoro_id") || 0
-    pomodoro = PomodoroQuery.find(pomodoro_id)
+    pomodoro = PomodoroQuery.new.cuid(pomodoro_id).limit(1).first
     task = TaskQuery.find(pomodoro.task_id)
     Tasklist.with_role(:owner, current_user).id(task.tasklist_id).first
 

@@ -1,14 +1,14 @@
 class Api::V1::Pomodoros::CreateForm < Pomodoro::BaseForm
+  needs task : Task
   needs current_user : User
 
   param_key :pomodoro
-
-  fillable task_id
 
   def prepare
     generate_cuid
     default_status_value
     set_started_at
+    set_task_id
   end
 
   private def generate_cuid
@@ -25,5 +25,9 @@ class Api::V1::Pomodoros::CreateForm < Pomodoro::BaseForm
 
   private def set_started_at
     started_at.value = Time.utc
+  end
+
+  private def set_task_id
+    task_id.value = task.id
   end
 end

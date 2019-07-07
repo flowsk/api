@@ -7,7 +7,8 @@ module Api::V1
     getter current_user : User? = nil
 
     private def require_current_user
-      token = context.request.headers["Authorization"]?
+      auth_header = context.request.headers["Authorization"]
+      token = auth_header.split(" ")[1]
 
       if token.nil?
         head 401
