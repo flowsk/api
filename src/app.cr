@@ -1,6 +1,11 @@
 require "./shards"
+
+# My Packages
 require "./cuid"
 require "./timecop"
+require "./legit"
+require "./gateway"
+require "./business"
 
 require "./models/base_model"
 require "./models/mixins/**"

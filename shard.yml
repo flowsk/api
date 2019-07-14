@@ -24,6 +24,11 @@ dependencies:
     github: gdotdesign/cr-dotenv
   jwt:
     github: crystal-community/jwt
+  schedule:
+    github: hugoabonizio/schedule.cr
+  redis:
+    github: stefanwille/crystal-redis
+    version: ~> 2.2.1
 
 development_dependencies:
   ameba:
