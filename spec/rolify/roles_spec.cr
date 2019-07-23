@@ -1,6 +1,6 @@
 require "../spec_helper.cr"
 
-private def verify_tasks(tasks : Avram::Query, expected : Array(Int32))
+private def verify_tasks(tasks : Avram::Query, expected : Array(Int64))
   tasks.size.should eq(expected.size)
   tasks.each { |x| expected.should contain(x.id) }
 end

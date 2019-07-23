@@ -1,4 +1,4 @@
-class UserRoleForm < UserRole::BaseForm
-  fillable user_id
-  fillable role_id
+class UserRoleForm < UserRole::SaveOperation
+  permit_columns user_id
+  permit_columns role_id
 end

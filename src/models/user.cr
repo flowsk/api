@@ -26,7 +26,7 @@ class User < BaseModel
   end
 
   def remove_role(role : Symbol)
-    roles = UserRoleQuery.new.user_id(self.id).join_roles.roles { |user_role|
+    roles = UserRoleQuery.new.user_id(self.id).join_roles.where_roles { |user_role|
       user_role.name(role.to_s)
     }
     remove_roles(roles)
@@ -42,7 +42,7 @@ class User < BaseModel
   end
 
   def remove_role(role : Symbol, resource : Avram::Model)
-    roles = UserRoleQuery.new.user_id(self.id).join_roles.roles { |user_role|
+    roles = UserRoleQuery.new.user_id(self.id).join_roles.where_roles { |user_role|
       user_role.name(role.to_s).resource_type(resource.class.to_s).resource_id(resource.id)
     }
     remove_roles(roles)
@@ -58,7 +58,7 @@ class User < BaseModel
   end
 
   def remove_role(role : Symbol, resource : Avram::Model.class)
-    roles = UserRoleQuery.new.user_id(self.id).join_roles.roles { |user_role|
+    roles = UserRoleQuery.new.user_id(self.id).join_roles.where_roles { |user_role|
       user_role.name(role.to_s).resource_type(resource.to_s)
     }
     remove_roles(roles)
@@ -103,13 +103,13 @@ class User < BaseModel
   end
 
   private def check_user_role!(role : Role)
-    RoleQuery.new.join_users_roles.users_roles { |user_role|
+    RoleQuery.new.join_users_roles.where_users_roles { |user_role|
       user_role.user_id(self.id).role_id(role.id)
     }.first
   end
 
   private def find_or_create_user_role(role : Role)
-    user_role = RoleQuery.new.join_users_roles.users_roles { |user_role|
+    user_role = RoleQuery.new.join_users_roles.where_users_roles { |user_role|
       user_role.user_id(self.id).role_id(role.id)
     }.first
   rescue Avram::RecordNotFoundError
@@ -123,7 +123,7 @@ class User < BaseModel
     sql = <<-SQL
       DELETE FROM users_roles WHERE id = #{roles_ids_sql}
     SQL
-    Avram::Repo.run do |db|
+    AppDatabase.run do |db|
       db.query_all sql, as: Role
     end
   end

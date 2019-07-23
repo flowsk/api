@@ -1,3 +1,3 @@
-class RoleForm < Role::BaseForm
-  fillable name
+class RoleForm < Role::SaveOperation
+  permit_columns name
 end

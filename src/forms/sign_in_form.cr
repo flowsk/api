@@ -1,11 +1,12 @@
-class SignInForm < Avram::VirtualForm
-  include Authentic::FormHelpers
+class SignInForm < Avram::Operation
   include FindAuthenticatable
 
-  virtual email : String
-  virtual password : String
+  param_key :sign_in
 
-  private def validate(user : User?)
+  attribute email : String
+  attribute password : String
+
+  def validate(user : User)
     if user
       unless Authentic.correct_password?(user, password.value.to_s)
         password.add_error "is wrong"

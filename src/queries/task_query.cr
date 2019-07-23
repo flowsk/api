@@ -1,5 +1,5 @@
 class TaskQuery < Task::BaseQuery
-  def find_in(ids : Array(Int32))
+  def find_in(ids : Array(Int64))
     ids.compact
     if ids.empty?
       TaskQuery.new.where("1=0")
@@ -9,7 +9,7 @@ class TaskQuery < Task::BaseQuery
     end
   end
 
-  def find_not_in(ids : Array(Int32))
+  def find_not_in(ids : Array(Int64))
     ids.compact
     if ids.empty?
       TaskQuery.new

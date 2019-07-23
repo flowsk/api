@@ -1,16 +1,19 @@
-private class TasklistForm < Tasklist::BaseForm
+private class TasklistForm < Tasklist::SaveOperation
+  before_save :prepare
+
   def prepare
     cuid.value = Cuid.generate
   end
 end
 
-class Api::V1::Tasks::CreateForm < Task::BaseForm
+class Api::V1::Tasks::CreateForm < Task::SaveOperation
   needs current_user : User
+  before_save :prepare
 
   param_key :task
 
-  fillable title
-  fillable completed
+  permit_columns title
+  permit_columns completed
 
   def prepare
     validate_required title

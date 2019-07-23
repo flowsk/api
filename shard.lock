@@ -6,15 +6,19 @@ shards:
 
   authentic:
     github: luckyframework/authentic
-    version: 0.3.0
+    commit: fcb82474b14ed2c6d4de3eca69cb02ce3e7a5d79
 
   avram:
     github: luckyframework/avram
-    version: 0.10.0
+    commit: 652d92eca30233642989c2296c34da17884bc1dd
 
   blank:
     github: kostya/blank
     version: 0.1.0
+
+  cable:
+    github: cable-cr/cable
+    commit: 36103c088a7dc0791a329dd3b7c78b16f44be96a
 
   callback:
     github: mosop/callback
@@ -58,7 +62,7 @@ shards:
 
   lucky:
     github: luckyframework/lucky
-    version: 0.15.1
+    commit: e6bac4574b536118837c2410f790668cfb9917b6
 
   lucky_cli:
     github: luckyframework/lucky_cli
@@ -83,6 +87,10 @@ shards:
   pool:
     github: ysbaddaden/pool
     version: 0.2.3
+
+  radix:
+    github: luislavena/radix
+    version: 0.3.9
 
   redis:
     github: stefanwille/crystal-redis

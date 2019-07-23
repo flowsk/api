@@ -1,6 +1,8 @@
-class Api::V1::Pomodoros::CreateForm < Pomodoro::BaseForm
+class Api::V1::Pomodoros::CreateForm < Pomodoro::SaveOperation
   needs task : Task
   needs current_user : User
+
+  before_save :prepare
 
   param_key :pomodoro
 

@@ -11,6 +11,12 @@ targets:
 crystal: 0.29.0
 
 dependencies:
+  authentic:
+    github: luckyframework/authentic
+    branch: master
+  avram:
+    github: fernandes/avram
+    branch: feature/polymorphism
   lucky:
     github: luckyframework/lucky
     version: ~> 0.15.0
@@ -26,6 +32,8 @@ dependencies:
     github: crystal-community/jwt
   schedule:
     github: hugoabonizio/schedule.cr
+  radix:
+    github: luislavena/radix
   redis:
     github: stefanwille/crystal-redis
     version: ~> 2.2.1

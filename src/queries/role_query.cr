@@ -11,7 +11,7 @@ class RoleQuery < Role::BaseQuery
         roles.resource_type = '#{resource_class}' AND roles.resource_id IS NULL
       )
     SQL
-    Avram::Repo.run do |db|
+    AppDatabase.run do |db|
       db.query_all sql, as: Role
     end
   end

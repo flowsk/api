@@ -1,5 +1,5 @@
 class TasklistQuery < Tasklist::BaseQuery
-  def find_in(ids : Array(Int32))
+  def find_in(ids : Array(Int64))
     ids.compact
     if ids.empty?
       TasklistQuery.new.where("1=0")
@@ -9,7 +9,7 @@ class TasklistQuery < Tasklist::BaseQuery
     end
   end
 
-  def find_not_in(ids : Array(Int32))
+  def find_not_in(ids : Array(Int64))
     ids.compact
     if ids.empty?
       TaskQTasklistQueryuery.new

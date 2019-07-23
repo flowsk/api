@@ -1,5 +1,6 @@
-class Api::V1::Pomodoros::Finish::CreateForm < Pomodoro::BaseForm
+class Api::V1::Pomodoros::Finish::CreateForm < Pomodoro::SaveOperation
   needs current_user : User
+  before_save :prepare
 
   param_key :pomodoro
 

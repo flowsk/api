@@ -33,6 +33,9 @@ Lucky.configure do |settings|
   settings.logger = logger
 end
 
-Avram::Repo.configure do |settings|
+Avram.configure do |settings|
   settings.logger = logger
+
+  # # In development and test, raise an error if you forget to preload associations
+  settings.lazy_load_enabled = Lucky::Env.production?
 end

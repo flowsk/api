@@ -14,10 +14,9 @@ describe AppServer do
     }))
 
     # check response has status: 200 and retuns the token
+    visitor.response.status_code.should eq 200
     json = JSON.parse(visitor.response.body)
     json["token"].should_not be_nil
-    visitor.response.status_code.should eq 200
-    # visitor.response.headers["Authorization"].should_not be_nil
   end
 
   it "creates user on sign up" do
@@ -31,7 +30,6 @@ describe AppServer do
     visitor.response.status_code.should eq 200
     json = JSON.parse(visitor.response.body)
     json["token"].should_not be_nil
-    visitor.response.status_code.should eq 200
 
     UserQuery.new.email("test@email.com").first.should_not be_nil
   end

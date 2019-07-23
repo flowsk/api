@@ -1,9 +1,13 @@
-class SignUpForm < User::BaseForm
+class SignUpForm < User::SaveOperation
   include PasswordValidations
+  before_save :prepare
 
-  fillable name, email
-  virtual password : String
-  virtual password_confirmation : String
+  param_key :sign_up
+
+  permit_columns name
+  permit_columns email
+  attribute password : String
+  attribute password_confirmation : String
 
   def prepare
     validate_uniqueness_of email

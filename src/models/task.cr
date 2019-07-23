@@ -20,7 +20,7 @@ class Task < BaseModel
   end
 
   def self.with_role(role : Symbol)
-    users_roles = UserRoleQuery.new.preload_role.join_roles.roles { |user_role|
+    users_roles = UserRoleQuery.new.preload_role.join_roles.where_roles { |user_role|
       user_role.resource_type("Task").name(role.to_s)
     }
     roles_ids = users_roles.map { |x| x.role.resource_id }.compact
@@ -29,7 +29,7 @@ class Task < BaseModel
   end
 
   def self.with_role(role : Symbol, user : User)
-    users_roles = UserRoleQuery.new.user_id(user.id).preload_role.join_roles.roles { |user_role|
+    users_roles = UserRoleQuery.new.user_id(user.id).preload_role.join_roles.where_roles { |user_role|
       user_role.resource_type("Task").name(role.to_s)
     }
     roles_ids = users_roles.map { |x| x.role.resource_id }.compact
@@ -40,7 +40,7 @@ class Task < BaseModel
   def self.with_role(role : Array(Symbol), user : User)
     role = role.map(&.to_s)
     roles_sql = role.to_s.sub("[", "(").sub("]", ")").gsub("\"", "'")
-    users_roles = UserRoleQuery.new.user_id(user.id).preload_role.join_roles.roles { |user_role|
+    users_roles = UserRoleQuery.new.user_id(user.id).preload_role.join_roles.where_roles { |user_role|
       user_role.resource_type("Task").where("name IN #{roles_sql}")
     }
     roles_ids = users_roles.map { |x| x.role.resource_id }.compact
@@ -49,7 +49,7 @@ class Task < BaseModel
   end
 
   def self.without_role(role : Symbol)
-    users_roles = UserRoleQuery.new.preload_role.join_roles.roles { |user_role|
+    users_roles = UserRoleQuery.new.preload_role.join_roles.where_roles { |user_role|
       user_role.resource_type("Task").name(role.to_s)
     }
     roles_ids = users_roles.map { |x| x.role.resource_id }.compact

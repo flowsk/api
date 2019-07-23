@@ -1,13 +1,19 @@
 class CreateRolify::V20190626181723 < Avram::Migrator::Migration::V1
   def migrate
     create :roles do
+      primary_key id : Int64
+      add_timestamps
+
       add name : String
       add resource_type : String?
-      add resource_id : Int32?
+      add resource_id : Int64?
       add description : String?
     end
 
     create :users_roles do
+      primary_key id : Int64
+      add_timestamps
+
       add_belongs_to user : User, on_delete: :cascade
       add_belongs_to role : Role, on_delete: :cascade
     end

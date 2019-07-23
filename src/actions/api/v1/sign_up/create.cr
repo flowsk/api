@@ -10,5 +10,7 @@ class Api::V1::SignUp::Create < ApiAction
         head 401
       end
     end
+  rescue e : Exception
+    head 401
   end
 end
